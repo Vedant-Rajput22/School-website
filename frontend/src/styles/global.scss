@@ -29,6 +29,7 @@ img{max-width:100%;display:block}
 .nav-link{color:#eee;padding:.6rem .8rem;border-radius:.25rem;transition:.2s}
 .nav-link:hover{background:rgba(255,255,255,.08)}
 .cta{background:var(--brand);color:#000;font-weight:800}
+.menu-toggle{display:none;background:none;border:0;color:#fff;font-size:28px;line-height:1;padding:.25rem .4rem;cursor:pointer}
 
 /* Hero */
 .hero{position:relative;color:#fff}
@@ -65,8 +66,20 @@ footer .bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:2rem;padding
   .feature-grid{grid-template-columns:repeat(2,1fr)}
   .split{grid-template-columns:1fr}
   .navbar{top:24px}
+  .hero-slide{height:62vh;min-height:360px}
+  footer .cols{grid-template-columns:1fr 1fr}
 }
 @media (max-width: 640px){
   .feature-grid{grid-template-columns:1fr}
+  .hero-slide{height:56vh;min-height:280px}
+  footer .cols{grid-template-columns:1fr}
+}
+
+/* Mobile navigation */
+@media (max-width: 900px){
+  .menu-toggle{display:block}
+  .nav-links{position:absolute;left:0;right:0;top:100%;background:rgba(20,20,20,.96);padding:.4rem 1rem;flex-direction:column;display:none}
+  .nav-links.open{display:flex}
+  .nav-link{padding:.9rem 1rem}
 }
 

@@ -1,32 +1,39 @@
 import { Routes, Route, NavLink } from 'react-router-dom'
+import { useState } from 'react'
 import Home from './pages/Home'
 import About from './pages/About'
 import Admissions from './pages/Admissions'
 import Campus from './pages/Campus'
 import Learning from './pages/Learning'
 import Wellbeing from './pages/Wellbeing'
-import Careers from './pages/Careers'
 import Contact from './pages/Contact'
 import FAQ from './pages/FAQ'
+import NoticeBoard from './pages/NoticeBoard'
+import NoticeNew from './pages/NoticeNew'
+import Admin from './pages/Admin'
+import ProtectedRoute from './ProtectedRoute'
 
 function Header(){
+  const [open, setOpen] = useState(false)
   return (
     <>
-      <div className="topbar">AN ECO-CONSCIOUS SCHOOL EXPERIENCE FOR CURIOUS MINDS</div>
+      <div className="topbar">AN ECO-CONSCIOUS SCHOOL FOR CURIOUS, CONFIDENT LEARNERS</div>
       <header className="navbar">
         <div className="container nav-inner">
           <a className="brand" href="/">
             <span className="brand-mark" />
             <span>Baby Stars</span>
           </a>
-          <nav className="nav-links">
+          <button aria-label="Menu" className="menu-toggle" onClick={()=>setOpen(v=>!v)}>☰</button>
+          <nav className={"nav-links" + (open ? " open" : "")} onClick={()=>setOpen(false)}>
             <NavLink to="/" className="nav-link">Home</NavLink>
             <NavLink to="/about" className="nav-link">About Us</NavLink>
             <NavLink to="/admissions" className="nav-link">Admissions</NavLink>
             <NavLink to="/campus" className="nav-link">The Campus</NavLink>
             <NavLink to="/learning" className="nav-link">Learning</NavLink>
             <NavLink to="/wellbeing" className="nav-link">Wellbeing</NavLink>
-            <NavLink to="/careers" className="nav-link">Careers</NavLink>
+            <NavLink to="/notice-board" className="nav-link">Notice Board</NavLink>
+            <NavLink to="/admin" className="nav-link">Admin</NavLink>
             <NavLink to="/contact" className="nav-link cta">Contact Us</NavLink>
           </nav>
         </div>
@@ -80,7 +87,9 @@ export default function App(){
         <Route path="/campus" element={<Campus />} />
         <Route path="/learning" element={<Learning />} />
         <Route path="/wellbeing" element={<Wellbeing />} />
-        <Route path="/careers" element={<Careers />} />
+        <Route path="/notice-board" element={<NoticeBoard />} />
+        <Route path="/notice-board/new" element={<ProtectedRoute><NoticeNew /></ProtectedRoute>} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<FAQ />} />
       </Routes>

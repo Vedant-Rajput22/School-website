@@ -4,6 +4,8 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { listNotices, type Notice } from '../api'
 
 const slides = [
   {
@@ -29,6 +31,32 @@ function FeatureCard({title, img, to}:{title:string,img:string,to:string}){
       <img src={img} alt={title} />
       <div className="label">{title}</div>
     </NavLink>
+  )
+}
+
+function NoticeCarousel(){
+  const [items,setItems] = useState<Notice[]>([])
+  useEffect(()=>{ listNotices().then(ns=>setItems(ns.slice(0,8))).catch(()=>{}) },[])
+  if(items.length===0) return null
+  return (
+    <section className="section" style={{paddingTop:'2.5rem'}}>
+      <div className="container">
+        <h2>Notice Board</h2>
+        <Swiper modules={[Autoplay, Pagination]} autoplay={{delay:4000}} pagination={{clickable:true}} loop slidesPerView={1} breakpoints={{640:{slidesPerView:2}, 1024:{slidesPerView:3}}}>
+          {items.map(n => (
+            <SwiperSlide key={n.id}>
+              <div style={{border:'1px solid #eee',borderRadius:8,padding:16,background:'#fff',height:'100%'}}>
+                <h3 style={{marginTop:0}}>{n.title}</h3>
+                <p style={{marginBottom:0}}>{n.description.length>140? n.description.slice(0,140)+'…': n.description}</p>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div style={{textAlign:'center',marginTop:16}}>
+          <NavLink to="/notice-board" className="btn">View all notices</NavLink>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -85,6 +113,8 @@ export default function Home(){
           <p className="testimonial">Our mission is to provide a British education that connects our community with the natural world and inspires us to imagine and build a future in which all may flourish.</p>
         </div>
       </section>
+
+      <NoticeCarousel />
 
       <section className="section">
         <div className="container">
