@@ -12,6 +12,15 @@ import NoticeBoard from './pages/NoticeBoard'
 import NoticeNew from './pages/NoticeNew'
 import Admin from './pages/Admin'
 import ProtectedRoute from './ProtectedRoute'
+import AdminNotices from './pages/AdminNotices'
+import NoticeEdit from './pages/NoticeEdit'
+import Events from './pages/Events'
+import Team from './pages/Team'
+import Gallery from './pages/Gallery'
+import News from './pages/News'
+import ArticleView from './pages/ArticleView'
+import { useEffect } from 'react'
+import { API_BASE } from './api'
 
 function Header(){
   const [open, setOpen] = useState(false)
@@ -33,6 +42,10 @@ function Header(){
             <NavLink to="/learning" className="nav-link">Learning</NavLink>
             <NavLink to="/wellbeing" className="nav-link">Wellbeing</NavLink>
             <NavLink to="/notice-board" className="nav-link">Notice Board</NavLink>
+            <NavLink to="/events" className="nav-link">Events</NavLink>
+            <NavLink to="/team" className="nav-link">Team</NavLink>
+            <NavLink to="/gallery" className="nav-link">Gallery</NavLink>
+            <NavLink to="/news" className="nav-link">News</NavLink>
             <NavLink to="/admin" className="nav-link">Admin</NavLink>
             <NavLink to="/contact" className="nav-link cta">Contact Us</NavLink>
           </nav>
@@ -77,6 +90,9 @@ function Footer(){
 }
 
 export default function App(){
+  useEffect(()=>{
+    fetch(`${API_BASE}/api/health`).then(r=>r.json()).then(x=>console.log('Backend OK:', x)).catch(e=>console.warn('Backend not reachable', e))
+  },[])
   return (
     <>
       <Header />
@@ -89,6 +105,13 @@ export default function App(){
         <Route path="/wellbeing" element={<Wellbeing />} />
         <Route path="/notice-board" element={<NoticeBoard />} />
         <Route path="/notice-board/new" element={<ProtectedRoute><NoticeNew /></ProtectedRoute>} />
+        <Route path="/notice-board/edit/:id" element={<ProtectedRoute><NoticeEdit /></ProtectedRoute>} />
+        <Route path="/admin/notices" element={<ProtectedRoute><AdminNotices /></ProtectedRoute>} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/news/:id" element={<ArticleView />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<FAQ />} />
@@ -97,4 +120,3 @@ export default function App(){
     </>
   )
 }
-

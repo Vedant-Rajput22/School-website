@@ -36,6 +36,7 @@ export default function Admin(){
             <div>
               <p>You are logged in as admin.</p>
               <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+                <NavLink className="btn" to="/admin/notices">Manage Notices</NavLink>
                 <NavLink className="btn" to="/notice-board/new">Post a Notice</NavLink>
                 <button className="btn" onClick={()=>{ logout(); navigate('/admin') }}>Logout</button>
               </div>
@@ -54,4 +55,3 @@ export default function Admin(){
     </main>
   )
 }
-

@@ -1,10 +1,16 @@
 import PageHeader from '../shared/PageHeader'
 import { useState } from 'react'
+import { sendContact } from '../api'
 
 export default function Contact(){
   const [sent, setSent] = useState(false)
-  function handleSubmit(e: React.FormEvent){
+  async function handleSubmit(e: React.FormEvent){
     e.preventDefault()
+    const form = new FormData(e.target as HTMLFormElement)
+    const name = String(form.get('name')||'')
+    const email = String(form.get('email')||'')
+    const message = String(form.get('message')||'')
+    await sendContact({ name, email, message })
     setSent(true)
   }
   return (
@@ -23,9 +29,9 @@ export default function Contact(){
               <p>Dubai, UAE</p>
             </div>
             <form onSubmit={handleSubmit} style={{display:'grid',gap:12}}>
-              <input required placeholder="Your name" style={{padding:'12px 14px',border:'1px solid #ddd',borderRadius:6}} />
-              <input required type="email" placeholder="Email" style={{padding:'12px 14px',border:'1px solid #ddd',borderRadius:6}} />
-              <textarea required placeholder="Message" rows={5} style={{padding:'12px 14px',border:'1px solid #ddd',borderRadius:6}} />
+              <input name="name" required placeholder="Your name" style={{padding:'12px 14px',border:'1px solid #ddd',borderRadius:6}} />
+              <input name="email" required type="email" placeholder="Email" style={{padding:'12px 14px',border:'1px solid #ddd',borderRadius:6}} />
+              <textarea name="message" required placeholder="Message" rows={5} style={{padding:'12px 14px',border:'1px solid #ddd',borderRadius:6}} />
               <button className="btn" style={{width:'fit-content'}}>Send message</button>
               {sent && <div>Thanks — we’ll be in touch soon.</div>}
             </form>
@@ -35,4 +41,3 @@ export default function Contact(){
     </main>
   )
 }
-
